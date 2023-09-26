@@ -8,7 +8,6 @@ import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.ToggleButton
-import java.util.Calendar
 import java.util.Date
 
 class MainActivity : AppCompatActivity() {
@@ -45,18 +44,18 @@ class MainActivity : AppCompatActivity() {
         else txtMessage.text = "Debe ingresar todos los datos."
     }
 
-    private fun createPerson(): Person{
-        val person = Person()
+    private fun createPerson(): Armament{
+        val armament = Armament()
 
-        person.setName(this.etName.text.toString())
-        person.setAttribute(this.etAttribute.text.toString())
-        person.setRarity(this.etRarity.text.toString())
-        person.setDamage(this.etDamage.text.toString().toLong())
-        person.setUses(this.etUses.text.toString().toLong())
-        person.setMagic(this.tbMagic.isChecked)
-        person.setDateObtained(getDP())
+        armament.setName(this.etName.text.toString())
+        armament.setAttribute(this.etAttribute.text.toString())
+        armament.setRarity(this.etRarity.text.toString())
+        armament.setDamage(this.etDamage.text.toString().toInt())
+        armament.setUses(this.etUses.text.toString().toInt())
+        armament.setMagic(this.tbMagic.isChecked)
+        armament.setDateObtained(getDP())
 
-        return person
+        return armament
     }
 
     private fun putInfo(intent: Intent){

@@ -12,4 +12,6 @@
     <string name="yes">Sí</string>
     <string name="no">No</string>
     <string name="post">Enviar</string>
+    <string name="save">Guardar datos</string>
+    <string name="get">Ver datos Guardados</string>
 </resources>
