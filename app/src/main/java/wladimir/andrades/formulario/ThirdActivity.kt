@@ -1,8 +1,10 @@
 package wladimir.andrades.formulario
 
+import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 
 class ThirdActivity : AppCompatActivity() {
@@ -15,6 +17,11 @@ class ThirdActivity : AppCompatActivity() {
 
         tvGet = findViewById(R.id.tvGet)
         getDb()
+    }
+
+    fun changeDisplayMain(view: View){
+        intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
     private fun getDb(){

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Formulario</string>
+    <string name="login">Ingresar</string>
+    <string name="get">Ver datos Guardados</string>
     <string name="greet">Hi!</string>
     <string name="name">Nombre</string>
     <string name="attribute">Atributo</string>
@@ -12,6 +14,7 @@
     <string name="yes">Sí</string>
     <string name="no">No</string>
     <string name="post">Enviar</string>
+    <string name="clear">Limpiar</string>
     <string name="save">Guardar datos</string>
-    <string name="get">Ver datos Guardados</string>
+    <string name="back">Volver</string>
 </resources>

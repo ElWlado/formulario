@@ -52,6 +52,10 @@ class SecondActivity : AppCompatActivity() {
         else txtMagic.text = "No"
     }
 
+    fun back(view: View){
+        onBackPressed()
+    }
+
     fun saveValues(view: View) {
         db.addArmament(name, attribute, rarity, damage, uses, date, magic)
         Toast.makeText(this, "Se guardo el armamento creado.", Toast.LENGTH_SHORT).show()
