@@ -31,8 +31,10 @@ class SecondActivity : AppCompatActivity() {
         val txtUses : TextView = findViewById(R.id.txtUses)
         val txtDateObtained : TextView = findViewById(R.id.txtDateObtained)
         val txtMagic : TextView = findViewById(R.id.txtMagic)
+        val btnOption : TextView = findViewById(R.id.btnOption)
 
-        val armament: Armament = intent.getSerializableExtra("Person") as Armament
+        val edit = intent.getBooleanExtra("Edit", false)
+        val armament: Armament = intent.getSerializableExtra("Armament") as Armament
 
         name = armament.getName()
         attribute = armament.getAttribute()
@@ -50,15 +52,26 @@ class SecondActivity : AppCompatActivity() {
         txtDateObtained.text = date
         if (magic) txtMagic.text = "Sí"
         else txtMagic.text = "No"
+
+        if (edit){
+            btnOption.text = "Actualizar"
+            btnOption.setOnClickListener { editValues() }
+        } else btnOption.setOnClickListener { saveValues() }
     }
 
     fun back(view: View){
         onBackPressed()
     }
 
-    fun saveValues(view: View) {
+    private fun saveValues() {
         db.addArmament(name, attribute, rarity, damage, uses, date, magic)
-        Toast.makeText(this, "Se guardo el armamento creado.", Toast.LENGTH_SHORT).show()
+        changeDisplay()
+    }
+
+    private fun editValues() {
+        val id: Int = intent.getIntExtra("Id", 0)
+
+        db.updateArmament(id, name, attribute, rarity, damage, uses, date, magic)
         changeDisplay()
     }
 

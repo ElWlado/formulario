@@ -40,8 +40,8 @@ class myDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
         val values = ContentValues()
 
         values.put(COL_NAME, name)
-        values.put(COL_ATTRIBUTE, name)
-        values.put(COL_RARITY, attribute)
+        values.put(COL_ATTRIBUTE, attribute)
+        values.put(COL_RARITY, rarity)
         values.put(COL_DAMAGE, damage)
         values.put(COL_USES, uses)
         values.put(COL_DATE_OBTAINED, date)
@@ -51,5 +51,27 @@ class myDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
         db.close()
     }
 
+    fun deleteArmament(id: Int) {
+        val db = this.writableDatabase
+
+        db.delete(TABLE_NAME, "_id=?", arrayOf(id.toString()))
+        db.close()
+    }
+
+    fun updateArmament(id: Int, name: String, attribute: String, rarity: String, damage: Int, uses: Int, date: String, magic: Boolean) {
+        val db = this.writableDatabase
+        val values = ContentValues()
+
+        values.put(COL_NAME, name)
+        values.put(COL_ATTRIBUTE, attribute)
+        values.put(COL_RARITY, rarity)
+        values.put(COL_DAMAGE, damage)
+        values.put(COL_USES, uses)
+        values.put(COL_DATE_OBTAINED, date)
+        values.put(COL_MAGIC, if (magic) 1 else 0)
+
+        db.update(TABLE_NAME, values, "_id=?", arrayOf(id.toString()))
+        db.close()
+    }
 
 }
