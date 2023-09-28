@@ -3,11 +3,15 @@ package wladimir.andrades.formulario
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.ToggleButton
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.Calendar
 import java.util.Date
 
 class FormActivity : AppCompatActivity() {
@@ -17,8 +21,11 @@ class FormActivity : AppCompatActivity() {
     private lateinit var etDamage: EditText
     private lateinit var etUses: EditText
     private lateinit var tbMagic: ToggleButton
-    private lateinit var dtDateObtained: DatePicker
+    private lateinit var dpDateObtained: DatePicker
     private lateinit var txtMessage: TextView
+
+    private var edit: Boolean = false
+    private var id: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +37,10 @@ class FormActivity : AppCompatActivity() {
         etDamage = findViewById(R.id.etDamage)
         etUses = findViewById(R.id.etUses)
         tbMagic = findViewById(R.id.tbMagic)
-        dtDateObtained = findViewById(R.id.cvDateObtained)
+        dpDateObtained = findViewById(R.id.dpDateObtained)
         txtMessage = findViewById(R.id.txtMessage)
+
+        loadArmament()
     }
 
     fun clear(view: View){
@@ -53,7 +62,7 @@ class FormActivity : AppCompatActivity() {
         else txtMessage.text = "Debe ingresar todos los datos."
     }
 
-    private fun createPerson(): Armament{
+    private fun createArmament(): Armament{
         val armament = Armament()
 
         armament.setName(this.etName.text.toString())
@@ -68,7 +77,9 @@ class FormActivity : AppCompatActivity() {
     }
 
     private fun putInfo(intent: Intent){
-        intent.putExtra("Person", createPerson())
+        intent.putExtra("Armament", createArmament())
+        intent.putExtra("Edit", edit)
+        intent.putExtra("Id", id)
     }
 
     private fun validateTexts(): Boolean{
@@ -77,6 +88,39 @@ class FormActivity : AppCompatActivity() {
     }
 
     private fun getDP(): Date {
-        return Date(dtDateObtained.year-1900,dtDateObtained.month,dtDateObtained.dayOfMonth)
+        return Date(dpDateObtained.year-1900,dpDateObtained.month,dpDateObtained.dayOfMonth)
+    }
+
+    private fun loadArmament(){
+        if (intent.getSerializableExtra("Armament") != null){
+            val armament: Armament = intent.getSerializableExtra("Armament") as Armament
+
+            etName.text = Editable.Factory.getInstance().newEditable(armament.getName())
+            etAttribute.text = Editable.Factory.getInstance().newEditable(armament.getAttribute())
+            etRarity.text = Editable.Factory.getInstance().newEditable(armament.getRarity())
+            etDamage.text = Editable.Factory.getInstance().newEditable(armament.getDamage().toString())
+            etUses.text = Editable.Factory.getInstance().newEditable(armament.getUses().toString())
+            tbMagic.isChecked = armament.getMagic()
+
+            val date = formatDate(armament.getDateObtained())
+            dpDateObtained.updateDate(date[0], date[1], date[2])
+
+            id = intent.getIntExtra("Id", 0)
+            edit = true
+        }
+    }
+
+    private fun formatDate(date: Date): Array<Int>{
+        var dateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val date = SimpleDateFormat("dd/MM/yyyy").parse(dateFormat.format(date))
+        val calendar = Calendar.getInstance()
+
+        calendar.time = date
+
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        return arrayOf(year, month, day)
     }
 }

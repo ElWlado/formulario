@@ -163,19 +163,19 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/red"
+            android:backgroundTint="@color/darkGray"
             android:text="@string/back"
             android:onClick="back"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"/>
         <Button
+            android:id="@+id/btnOption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/save"
             android:onClick="saveValues"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"/>
-
     </TableRow>
 
 </TableLayout>
