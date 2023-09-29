@@ -17,4 +17,5 @@
     <string name="clear">Limpiar</string>
     <string name="save">Guardar datos</string>
     <string name="back">Volver</string>
+    <string name="delete">¿Seguro que quieres eliminar el armamento?</string>
 </resources>

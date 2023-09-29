@@ -4,14 +4,18 @@ import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -61,8 +65,74 @@ class ThirdActivity : AppCompatActivity() {
         db.deleteArmament(id)
         Toast.makeText(this, "Armamento Eliminado.", Toast.LENGTH_SHORT).show()
 
-        intent = Intent(this, ThirdActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun generateModal(id: Int){
+        val density = resources.displayMetrics.density
+        val marginInPixels = (20 * density).toInt()
+
+        val mainLinearLayout = LinearLayout(this)
+        mainLinearLayout.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
+        mainLinearLayout.gravity = Gravity.CENTER
+        mainLinearLayout.orientation = LinearLayout.VERTICAL
+
+        val internalLinearLayout = LinearLayout(this)
+        internalLinearLayout.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        internalLinearLayout.setPadding(marginInPixels, marginInPixels, marginInPixels, marginInPixels)
+        internalLinearLayout.orientation = LinearLayout.VERTICAL
+        internalLinearLayout.gravity = Gravity.CENTER
+        internalLinearLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.gray))
+
+        val textView = TextView(this)
+        textView.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        textView.text = getString(R.string.delete)
+        textView.gravity = Gravity.CENTER
+        textView.textSize = 20f
+        textView.setTextColor(ContextCompat.getColor(this, R.color.darkGray))
+
+        val yesButton = Button(this)
+        yesButton.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+        )
+        val yBParams = yesButton.layoutParams as LinearLayout.LayoutParams
+        yBParams.setMargins(0, marginInPixels , 0, 0)
+        yesButton.layoutParams = yBParams
+
+        yesButton.text = getString(R.string.yes)
+        yesButton.setBackgroundColor(ContextCompat.getColor(this, R.color.red))
+        yesButton.setOnClickListener { delete(id) }
+
+        val noButton = Button(this)
+        noButton.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        val nBParams = yesButton.layoutParams as LinearLayout.LayoutParams
+        nBParams.setMargins(0, marginInPixels, 0, 0)
+        noButton.layoutParams = nBParams
+
+        noButton.text = getString(R.string.no)
+        noButton.setBackgroundColor(ContextCompat.getColor(this, R.color.darkGray))
+        noButton.setOnClickListener { startActivity(intent) }
+
+        internalLinearLayout.addView(textView)
+        internalLinearLayout.addView(yesButton)
+        internalLinearLayout.addView(noButton)
+
+        mainLinearLayout.addView(internalLinearLayout)
+
+        setContentView(mainLinearLayout)
     }
 
     private fun getDb(){
@@ -96,7 +166,7 @@ class ThirdActivity : AppCompatActivity() {
 
                 val deleteImageView = ImageView(this)
                 deleteImageView.setImageResource(R.drawable.ic_delete)
-                deleteImageView.setOnClickListener { delete(id) }
+                deleteImageView.setOnClickListener { generateModal(id) }
                 deleteImageView.layoutParams = params1
                 row.addView(deleteImageView)
 
